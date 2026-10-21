@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings | CampusPass</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="topbar" id="topbar"></header>
+<main class="wrap page">
+  <div class="page-head"><h1>Settings</h1></div>
+  <div class="split">
+    <section class="card">
+      <h2>Add your API key</h2>
+      <p class="sub">Your administrator gave you a key. Paste it here and it is saved in this browser.</p>
+      <form id="keyForm" autocomplete="off">
+        <div class="field">
+          <label for="keyInput">API key</label>
+          <input id="keyInput" class="mono" placeholder="stu_… or tea_…" spellcheck="false" required>
+          <p class="hint">Saving checks the key with the server. That check counts as 1 request.</p>
+        </div>
+        <div class="btn-row"><button class="btn" type="submit" id="saveBtn">Save key</button></div>
+      </form>
+      <div id="result" role="status" aria-live="polite" style="margin-top:18px"></div>
+      <hr style="border:0;border-top:1px solid var(--line);margin:24px 0 16px">
+      <p class="hint" style="margin:0 0 10px">Demo keys for testing the rules:</p>
+      <div class="btn-row" id="demoKeys">
+        <button class="btn ghost small" type="button" data-key="student-key-123">Student</button>
+        <button class="btn ghost small" type="button" data-key="teacher-key-456">Teacher</button>
+        <button class="btn ghost small" type="button" data-key="student-key-revoked">Revoked key</button>
+        <button class="btn ghost small" type="button" data-key="not-a-real-key">Invalid key</button>
+      </div>
+    </section>
+    <section>
+      <h2 style="font-size:22px;margin-bottom:16px">Saved on this browser</h2>
+      <div class="passes" id="saved"></div>
+    </section>
+  </div>
+</main>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/settings.js"></script>
+</body>
+</html>

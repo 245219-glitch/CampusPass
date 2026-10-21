@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>University API Access | CampusPass</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="topbar" id="topbar"></header>
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <span class="badge"><i></i>API online &middot; keys, limits and logs in MySQL</span>
+      <h1>Every request <span class="grad">carries a key.</span></h1>
+      <p class="lede">Students see their own marks. Teachers see everyone's. The administrator decides who gets a key and how many requests it can make.</p>
+      <div class="cta">
+        <a class="btn student" href="/settings">Save your API key</a>
+        <a class="btn ghost" href="/admin">Open the admin panel</a>
+      </div>
+    </div>
+    <div class="stack" id="demoPass"></div>
+  </section>
+
+  <div class="ticker" aria-hidden="true"><div class="ticker-track"><span><b>200</b> OK</span><i>&bull;</i><span><b>401</b> Unauthorized</span><i>&bull;</i><span><b>403</b> Forbidden</span><i>&bull;</i><span><b>429</b> Too many requests</span><i>&bull;</i><span><b>500</b> Server error</span><i>&bull;</i><span>x-api-key</span><i>&bull;</i><span><b>200</b> OK</span><i>&bull;</i><span><b>401</b> Unauthorized</span><i>&bull;</i><span><b>403</b> Forbidden</span><i>&bull;</i><span><b>429</b> Too many requests</span><i>&bull;</i><span><b>500</b> Server error</span><i>&bull;</i><span>x-api-key</span><i>&bull;</i></div></div>
+
+  <h2 class="section-title">Choose your door</h2>
+  <p class="section-sub">One site, three roles. What you can see depends on the key you carry.</p>
+  <section class="doors" aria-label="Choose your portal">
+    <a class="door student" href="/student"><h3>Student</h3><p>Your profile and your marks. Changing the id in the URL gets you nowhere.</p><span class="go">Open student portal</span></a>
+    <a class="door teacher" href="/teacher"><h3>Teacher</h3><p>Every student record and every mark, with search and class averages.</p><span class="go">Open teacher portal</span></a>
+    <a class="door" href="/admin"><h3>Administrator</h3><p>Generate keys, set request limits, watch usage, revoke access.</p><span class="go">Open admin panel</span></a>
+  </section>
+
+  <h2 class="section-title">How a request travels</h2>
+  <p class="section-sub">Every call passes the same four guards before MySQL is ever touched.</p>
+  <section class="flow" style="margin-bottom:12px">
+    <div class="step"><b>Browser</b><span>jQuery AJAX sends the request with the <code>x-api-key</code> header.</span></div>
+    <div class="step"><b>checkKey</b><span>No key or unknown key: <code>401</code>. Revoked key: <code>403</code>.</span></div>
+    <div class="step"><b>allowRoles</b><span>Wrong role for the endpoint: <code>403</code>.</span></div>
+    <div class="step"><b>ownRecordOnly</b><span>A student asking for another id: <code>403</code>.</span></div>
+    <div class="step"><b>spendRequest</b><span>Limit used up: <code>429</code>. Otherwise one request is counted and MySQL answers.</span></div>
+  </section>
+
+  <h2 class="section-title">What the server answers</h2>
+  <p class="section-sub">The status codes you will see in the Network tab.</p>
+  <section class="codes">
+    <div class="code"><b>200</b><span>OK</span><small>Key accepted, data returned.</small></div>
+    <div class="code"><b>401</b><span>Unauthorized</span><small>Key missing or not recognised.</small></div>
+    <div class="code"><b>403</b><span>Forbidden</span><small>Revoked key, wrong role, or someone else's record.</small></div>
+    <div class="code"><b>429</b><span>Too many requests</span><small>The key's request limit is used up.</small></div>
+    <div class="code"><b>500</b><span>Server error</span><small>MySQL or the server has a problem.</small></div>
+  </section>
+</main>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/common.js"></script>
+<script>
+$(function () {
+  renderTopbar("home");
+  $("#demoPass").html(passCard({ role: "teacher", name: "Teacher Name", key: "tea_9f8e7d6c5b4a", used: 12, limit: 30 }).replace("class=\"pass teacher", "class=\"pass back teacher") + passCard({ role: "student", name: "Student Name", key: "stu_a1b2c3d4e5f6", used: 4, limit: 10, demo: true }));
+});
+</script>
+</body>
+</html>
